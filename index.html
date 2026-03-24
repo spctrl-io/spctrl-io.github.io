@@ -1,22 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Display PNG Image</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: black url('background_3.png') no-repeat center center;
-            background-size: contain;
-        }
-    </style>
-</head>
-<body>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPCTRL</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="video-stage">
+      <video
+        id="videoA"
+        class="bg-video active"
+        muted
+        playsinline
+        preload="auto"
+      ></video>
+
+      <video
+        id="videoB"
+        class="bg-video"
+        muted
+        playsinline
+        preload="auto"
+      ></video>
+
+      <div class="overlay"></div>
+
+      <main class="content">
+        <img src="./public/images/asset_2.png" alt="SPCTRL" class="logo" />
+      </main>
+    </div>
+
+    <script type="module" src="./beat-video.js"></script>
+  </body>
 </html>
