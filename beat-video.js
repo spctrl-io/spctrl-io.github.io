@@ -1,16 +1,14 @@
 const CLIPS = [
-  "./public/videos/CLIP8.mp4",
-  "./public/videos/CLIP9.mp4",
-  "./public/videos/CLIP10.mp4",
+  "./public/videos/clip-01.mp4",
+  "./public/videos/clip-02.mp4",
+  "./public/videos/clip-03.mp4",
 ];
 
-// Keep this simple.
-const BPM = 60;
-const BEAT_SECONDS = 120 / BPM;
+const BPM = 120;
+const BEAT_SECONDS = 60 / BPM;
 
-// Probability split per beat.
-const CUT_PROBABILITY = 0.6;   // switch to another clip
-const SEEK_PROBABILITY = 0.4;  // jump within current clip
+const CUT_PROBABILITY = 0.6;
+const SEEK_PROBABILITY = 0.4;
 
 const videoA = document.getElementById("videoA");
 const videoB = document.getElementById("videoB");
@@ -47,7 +45,6 @@ function safeRandomSeekTime(video) {
   const duration = video.duration;
   if (!Number.isFinite(duration) || duration <= 0.25) return 0;
 
-  // Avoid jumping to the last few frames.
   const maxTime = Math.max(0, duration - 0.2);
   return Math.random() * maxTime;
 }
@@ -58,7 +55,7 @@ async function loadInto(video, src, time = 0) {
       try {
         video.currentTime = time;
       } catch {
-        // ignore seek race before metadata settles
+        // ignore early seek race
       }
 
       try {
@@ -141,11 +138,9 @@ async function start() {
   if (started) return;
   started = true;
 
-  // Load first clip into the front layer.
   await loadInto(front, CLIPS[currentClipIndex], 0);
   setActiveVideo(front);
 
-  // Preload second layer with another clip so the first cut is fast.
   const preloadIndex = randomIndexExcluding(currentClipIndex, CLIPS.length);
   try {
     await loadInto(back, CLIPS[preloadIndex], 0);
@@ -159,8 +154,6 @@ async function start() {
   requestAnimationFrame(tick);
 }
 
-// Browser autoplay policies usually allow muted video.
-// Start immediately, and also retry on first user interaction.
 start().catch((err) => {
   console.warn("Autoplay start failed, waiting for interaction:", err);
 
